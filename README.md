@@ -1,7 +1,5 @@
 # Knock iOS Example App
 
-# Knock iOS App Example
-
 ## Quick start
 
 Clone this repo:
