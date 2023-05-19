@@ -14,6 +14,26 @@ struct SheetView: View {
     @Binding var feed: Knock.Feed
     
     var archiveItem: ((Knock.FeedItem) -> Void)?
+    
+    struct TextCustom: UIViewRepresentable {
+        let html: String
+        
+        func updateUIView(_ uiView: UITextView, context: UIViewRepresentableContext<Self>) {
+            DispatchQueue.main.async {
+                let data = Data(self.html.utf8)
+                
+                if let attributedString = try? NSAttributedString(data: data, options: [.documentType: NSAttributedString.DocumentType.html], documentAttributes: nil) {
+                    uiView.isEditable = false
+                    uiView.attributedText = attributedString
+                }
+            }
+        }
+        
+        func makeUIView(context: UIViewRepresentableContext<Self>) -> UITextView {
+            let label = UITextView()
+            return label
+        }
+    }
 
     var body: some View {
         Button {
@@ -71,14 +91,11 @@ struct SheetView: View {
     
     @ViewBuilder
     private func renderNotificationContent(markdown: String) -> some View {
-//        let data = Data(markdown.utf8)
-//        if let nsAttrString = try? NSAttributedString(data: data, options: [.documentType: NSAttributedString.DocumentType.html], documentAttributes: nil) {
-//            Text(AttributedString(nsAttrString))
-//        }
-//        else {
-//            Text(markdown)
-//        }
-        Text(markdown)
+//        Text(markdown)
+        
+        let modifiedFontString = "<span style=\"font-family: -apple-system, sans-serif; font-size: 20\">" + markdown + "</span>"
+        TextCustom(html: modifiedFontString)
+            .frame(minWidth: 0, maxWidth: .infinity, minHeight: 130, maxHeight: .infinity)
     }
     
     @ViewBuilder
