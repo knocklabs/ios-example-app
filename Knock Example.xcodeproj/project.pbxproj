@@ -16,9 +16,13 @@
 		F1664EF92A147DF000BA9760 /* MainMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1664EF82A147DF000BA9760 /* MainMenuView.swift */; };
 		F1664EFD2A147E3A00BA9760 /* PreferencesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1664EFC2A147E3A00BA9760 /* PreferencesView.swift */; };
 		F1664EFF2A147E8700BA9760 /* MessageComposeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1664EFE2A147E8700BA9760 /* MessageComposeView.swift */; };
-		F1664F012A14814300BA9760 /* NewWorkflowPreferenceSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1664F002A14814300BA9760 /* NewWorkflowPreferenceSheetView.swift */; };
+		F1664F012A14814300BA9760 /* NewWorkflowPreferenceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1664F002A14814300BA9760 /* NewWorkflowPreferenceView.swift */; };
 		F1664F032A14892A00BA9760 /* SheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1664F022A14892A00BA9760 /* SheetView.swift */; };
 		F1664F082A148DB800BA9760 /* Knock in Frameworks */ = {isa = PBXBuildFile; productRef = F1664F072A148DB800BA9760 /* Knock */; };
+		F1A8A3B72A258DC10091C8BD /* NewConditionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1A8A3B62A258DC10091C8BD /* NewConditionView.swift */; };
+		F1A8A3B92A258DD40091C8BD /* NewChannelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1A8A3B82A258DD40091C8BD /* NewChannelView.swift */; };
+		F1A8A3BB2A258DE30091C8BD /* ConditionArrayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1A8A3BA2A258DE30091C8BD /* ConditionArrayView.swift */; };
+		F1A8A3BD2A258DF70091C8BD /* BooleanPreferenceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1A8A3BC2A258DF70091C8BD /* BooleanPreferenceView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,10 +36,14 @@
 		F1664EF82A147DF000BA9760 /* MainMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainMenuView.swift; sourceTree = "<group>"; };
 		F1664EFC2A147E3A00BA9760 /* PreferencesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferencesView.swift; sourceTree = "<group>"; };
 		F1664EFE2A147E8700BA9760 /* MessageComposeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageComposeView.swift; sourceTree = "<group>"; };
-		F1664F002A14814300BA9760 /* NewWorkflowPreferenceSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewWorkflowPreferenceSheetView.swift; sourceTree = "<group>"; };
+		F1664F002A14814300BA9760 /* NewWorkflowPreferenceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewWorkflowPreferenceView.swift; sourceTree = "<group>"; };
 		F1664F022A14892A00BA9760 /* SheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SheetView.swift; sourceTree = "<group>"; };
 		F1664F042A148AB900BA9760 /* Knock-Example-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "Knock-Example-Info.plist"; sourceTree = SOURCE_ROOT; };
 		F1664F052A148AED00BA9760 /* Knock Example.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Knock Example.entitlements"; sourceTree = "<group>"; };
+		F1A8A3B62A258DC10091C8BD /* NewConditionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewConditionView.swift; sourceTree = "<group>"; };
+		F1A8A3B82A258DD40091C8BD /* NewChannelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewChannelView.swift; sourceTree = "<group>"; };
+		F1A8A3BA2A258DE30091C8BD /* ConditionArrayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConditionArrayView.swift; sourceTree = "<group>"; };
+		F1A8A3BC2A258DF70091C8BD /* BooleanPreferenceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BooleanPreferenceView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -113,7 +121,11 @@
 			isa = PBXGroup;
 			children = (
 				F1664EFC2A147E3A00BA9760 /* PreferencesView.swift */,
-				F1664F002A14814300BA9760 /* NewWorkflowPreferenceSheetView.swift */,
+				F1664F002A14814300BA9760 /* NewWorkflowPreferenceView.swift */,
+				F1A8A3B62A258DC10091C8BD /* NewConditionView.swift */,
+				F1A8A3B82A258DD40091C8BD /* NewChannelView.swift */,
+				F1A8A3BA2A258DE30091C8BD /* ConditionArrayView.swift */,
+				F1A8A3BC2A258DF70091C8BD /* BooleanPreferenceView.swift */,
 			);
 			path = Preferences;
 			sourceTree = "<group>";
@@ -197,12 +209,16 @@
 				F1664EF92A147DF000BA9760 /* MainMenuView.swift in Sources */,
 				F1664F032A14892A00BA9760 /* SheetView.swift in Sources */,
 				F1664EFD2A147E3A00BA9760 /* PreferencesView.swift in Sources */,
+				F1A8A3B72A258DC10091C8BD /* NewConditionView.swift in Sources */,
 				F1664EF52A146A5800BA9760 /* AppDelegate.swift in Sources */,
 				F1664EE52A14404D00BA9760 /* ContentView.swift in Sources */,
 				F1664EFF2A147E8700BA9760 /* MessageComposeView.swift in Sources */,
 				F1664EE32A14404D00BA9760 /* Knock_ExampleApp.swift in Sources */,
+				F1A8A3BD2A258DF70091C8BD /* BooleanPreferenceView.swift in Sources */,
+				F1A8A3BB2A258DE30091C8BD /* ConditionArrayView.swift in Sources */,
+				F1A8A3B92A258DD40091C8BD /* NewChannelView.swift in Sources */,
 				F1664EF72A146AA300BA9760 /* Utils.swift in Sources */,
-				F1664F012A14814300BA9760 /* NewWorkflowPreferenceSheetView.swift in Sources */,
+				F1664F012A14814300BA9760 /* NewWorkflowPreferenceView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

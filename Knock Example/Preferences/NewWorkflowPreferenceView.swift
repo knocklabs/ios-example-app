@@ -1,5 +1,5 @@
 //
-//  NewWorkflowPreferenceSheetView.swift
+//  NewWorkflowPreferenceView.swift
 //  Knock Example
 //
 //  Created by Diego on 16/05/23.
@@ -8,7 +8,7 @@
 import SwiftUI
 import Knock
 
-struct NewWorkflowPreferenceSheetView: View {
+struct NewWorkflowPreferenceView: View {
     @Environment(\.dismiss) var dismiss
     
     @Binding var items: Knock.WorkflowPreferenceItems
@@ -36,7 +36,7 @@ struct NewWorkflowPreferenceSheetView: View {
                 case .bool:
                     items.boolValues.append(Knock.WorkflowPreferenceBoolItem(id: name, value: false))
                 case .channels:
-                    items.channelTypeValues.append(Knock.WorkflowPreferenceChannelTypesItem(id: name, channelTypes: []))
+                    items.channelTypeValues.append(Knock.WorkflowPreferenceChannelTypesItem(id: name, channelTypes: [], conditions: []))
                 }
                 
                 dismiss()

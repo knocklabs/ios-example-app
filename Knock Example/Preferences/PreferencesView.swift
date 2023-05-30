@@ -8,37 +8,26 @@
 import SwiftUI
 import Knock
 
+final class PreferenceModelData: ObservableObject {
+    @Published var preferenceSet: Knock.PreferenceSet = Knock.PreferenceSet()
+    @Published var preferenceArray: [Knock.ChannelTypePreferenceItem] = []
+    @Published var categories = Knock.WorkflowPreferenceItems()
+    @Published var workflows = Knock.WorkflowPreferenceItems()
+}
+
 struct PreferencesView: View {
     private var knockClient: Knock = Utils.myKnockClient()
-    @State private var preferenceSet: Knock.PreferenceSet = Knock.PreferenceSet()
-    @State private var preferenceArray: [Knock.ChannelTypePreferenceItem] = [] {
-        didSet {
-            saveCurrentPreferences()
-        }
-    }
-    @State private var categories = Knock.WorkflowPreferenceItems() {
-        didSet {
-            saveCurrentPreferences()
-        }
-    }
-    @State private var workflows = Knock.WorkflowPreferenceItems() {
-        didSet {
-            saveCurrentPreferences()
-        }
-    }
+    
+//    @EnvironmentObject var modelData: PreferenceModelData
+    @StateObject private var modelData = PreferenceModelData()
     
     @State private var showingNewSheetForCategories = false
     @State private var showingNewSheetForWorkflows = false
     @State private var showingError: Error? = nil
     @State private var isShowingError = false
     
-    private let availableChannelTypeKeyPaths: [KeyPath<Knock.ChannelTypePreferences, Bool?>] = [
-        \.chat,
-        \.email,
-        \.in_app_feed,
-        \.push,
-        \.sms
-    ]
+    @State private var newChannelView: NewChannelView? = nil
+    @State private var newConditionView: NewConditionView? = nil
     
     var body: some View {
         NavigationView {
@@ -53,11 +42,11 @@ struct PreferencesView: View {
     func preferencesView() -> some View {
         List {
             Section(header: Text("Channels")) {
-                channelTypesView(channelTypesArray: $preferenceArray)
+                channelTypesView(channelTypesArray: $modelData.preferenceArray)
             }
             
             Section(header: Text("Categories")) {
-                workflowPreferenceTreeView(rootItems: $categories)
+                workflowPreferenceTreeView(rootItems: $modelData.categories)
                 Button {
                     showingNewSheetForCategories = true
                 } label: {
@@ -65,12 +54,12 @@ struct PreferencesView: View {
                         .foregroundColor(.accentColor)
                 }
                 .sheet(isPresented: $showingNewSheetForCategories) {
-                    NewWorkflowPreferenceSheetView(items: $categories)
+                    NewWorkflowPreferenceView(items: $modelData.categories)
                 }
             }
             
             Section(header: Text("Workflows")) {
-                workflowPreferenceTreeView(rootItems: $workflows)
+                workflowPreferenceTreeView(rootItems: $modelData.workflows)
                 Button {
                     showingNewSheetForWorkflows = true
                 } label: {
@@ -78,7 +67,7 @@ struct PreferencesView: View {
                         .foregroundColor(.accentColor)
                 }
                 .sheet(isPresented: $showingNewSheetForWorkflows) {
-                    NewWorkflowPreferenceSheetView(items: $workflows)
+                    NewWorkflowPreferenceView(items: $modelData.workflows)
                 }
             }
         }
@@ -86,16 +75,16 @@ struct PreferencesView: View {
             getCurrentPreferences()
         }
         .navigationTitle("Preferences")
-        .navigationBarItems(
-            trailing:
-                EditButton()
-        )
+        .navigationBarItems(trailing: EditButton())
         .alert("There was an error", isPresented: $isShowingError, presenting: showingError) { error in
-            Button("OK") {
-                getCurrentPreferences()
-            }
         } message: { error in
             Text(error.localizedDescription)
+        }
+        .sheet(item: $newChannelView) { newView in
+            newView
+        }
+        .sheet(item: $newConditionView) { newView in
+            newView
         }
     }
     
@@ -111,104 +100,145 @@ struct PreferencesView: View {
         }
         .onDelete { offsets in
             rootItems.wrappedValue.boolValues.remove(atOffsets: offsets)
+            saveCurrentPreferences()
         }
         
         ForEach(rootItems.channelTypeValues) { $channelType in
             nestedChannelTypesView(id: channelType.id, channelTypesArray: $channelType.channelTypes)
+            
+            conditionArrayView(id: channelType.id, conditionsArray: $channelType.conditions)
         }
         .onDelete { offsets in
             rootItems.wrappedValue.channelTypeValues.remove(atOffsets: offsets)
+            saveCurrentPreferences()
         }
     }
     
     @ViewBuilder
     func nestedChannelTypesView(id: String, channelTypesArray: Binding<[Knock.ChannelTypePreferenceItem]>) -> some View {
         Section(id) {
-            ForEach(channelTypesArray, id: \.id) { $item in
-                Toggle(item.id.rawValue, isOn: $item.value)
-                    .onChange(of: item) { _ in
+            ForEach(channelTypesArray) { $item in
+                switch item.value {
+                case .left(_):
+                    BooleanPreferenceView(item: $item) {
                         saveCurrentPreferences()
                     }
+                case .right(_):
+                    ConditionArrayView(item: $item) {
+                        saveCurrentPreferences()
+                    }
+                }
             }
             .onDelete { offsets in
                 channelTypesArray.wrappedValue.remove(atOffsets: offsets)
+                saveCurrentPreferences()
             }
             .padding(.leading)
             
-            Menu {
-                let possibleItems = Knock.ChannelTypeKey.allCases.map{ key in
-                    Knock.ChannelTypePreferenceItem(id: key, value: false)
-                }
-                let availableItems = possibleItems.filter { item in
-                    channelTypesArray.wrappedValue.contains{ $0.id == item.id } == false
-                }
-                ForEach(availableItems, id: \.id) { item in
-                    Button {
-                        channelTypesArray.wrappedValue.append(item)
-                    } label: {
-                        Text(item.id.rawValue)
-                    }
+            addChannelTypeMenuView(channelTypesArray: channelTypesArray, buttonText: "Add channel to \(id)")
+        }
+    }
+    
+    @ViewBuilder
+    func conditionArrayView(id: String, conditionsArray: Binding<[Knock.Condition]>) -> some View {
+        var sectionTitle: String {
+            if conditionsArray.count == 0 {
+                return "conditions for: \(id) (empty)"
+            }
+            else {
+                return "conditions for: \(id)"
+            }
+        }
+        
+        Section(sectionTitle) {
+            ForEach(conditionsArray) { condition in
+                let value = condition.wrappedValue
+                Text("condition: \(value.variable) - \(value.operation) - \(value.argument)")
+            }
+            .onDelete { offsets in
+                conditionsArray.wrappedValue.remove(atOffsets: offsets)
+                saveCurrentPreferences()
+            }
+            .deleteDisabled(false)
+            .padding(.leading)
+            
+            Button {
+                newConditionView = NewConditionView(conditions: conditionsArray) {
+                    newConditionView = nil
+                    saveCurrentPreferences()
                 }
             } label: {
-                Text("Add channel to \(id)")
-                    .padding(.leading)
-            } .disabled(channelTypesArray.wrappedValue.count == Knock.ChannelTypeKey.allCases.count)
+                Text("Add condition")
+                    .foregroundColor(.accentColor)
+            }
+            .deleteDisabled(true)
+            .padding(.leading)
         }
+        .deleteDisabled(true)
+    }
+    
+    @ViewBuilder
+    func addChannelTypeMenuView(channelTypesArray: Binding<[Knock.ChannelTypePreferenceItem]>, buttonText: String = "Add channel") -> some View {
+        Menu {
+            let possibleKeys = Knock.ChannelTypeKey.allCases
+            let availableKeys = possibleKeys.filter { key in
+                channelTypesArray.wrappedValue.contains{ $0.id == key } == false
+            }
+            ForEach(availableKeys, id: \.self) { key in
+                Button {
+                    newChannelView = NewChannelView(channelTypeKey: key, channelTypesArray: channelTypesArray) {
+                        newChannelView = nil
+                        saveCurrentPreferences()
+                    }
+                } label: {
+                    Text(key.rawValue)
+                }
+            }
+        } label: {
+            Text(buttonText)
+                .padding(.leading)
+        } .disabled(channelTypesArray.wrappedValue.count == Knock.ChannelTypeKey.allCases.count)
+            .deleteDisabled(true)
     }
     
     @ViewBuilder
     func channelTypesView(channelTypesArray: Binding<[Knock.ChannelTypePreferenceItem]>) -> some View {
         ForEach(channelTypesArray, id: \.id) { $item in
-            Toggle(item.id.rawValue, isOn: $item.value)
-                .onChange(of: item) { _ in
+            let searchId = item.id
+            var prefIndex: Int {
+                channelTypesArray.wrappedValue.firstIndex(where: { $0.id == searchId })!
+            }
+            
+            switch item.value {
+            case .left(_):
+                BooleanPreferenceView(item: $modelData.preferenceArray[prefIndex]) {
                     saveCurrentPreferences()
                 }
+            case .right(_):
+                ConditionArrayView(item: $modelData.preferenceArray[prefIndex]) {
+                    saveCurrentPreferences()
+                }
+            }
         }
         .onDelete { offsets in
             channelTypesArray.wrappedValue.remove(atOffsets: offsets)
+            saveCurrentPreferences()
         }
         
-        Menu {
-            let possibleItems = Knock.ChannelTypeKey.allCases.map{ key in
-                Knock.ChannelTypePreferenceItem(id: key, value: false)
-            }
-            let availableItems = possibleItems.filter { item in
-                channelTypesArray.wrappedValue.contains{ $0.id == item.id } == false
-            }
-            ForEach(availableItems) { item in
-                Button {
-                    channelTypesArray.wrappedValue.append(item)
-                } label: {
-                    Text(item.id.rawValue)
-                }
-            }
-        } label: {
-            Text("Add channel")
-        } .disabled(channelTypesArray.wrappedValue.count == Knock.ChannelTypeKey.allCases.count)
+        addChannelTypeMenuView(channelTypesArray: channelTypesArray)
     }
     
     private func getCurrentPreferences() {
         knockClient.getUserPreferences(preferenceId: "default") { result in
             switch result {
-            case .success(var preferenceSet):
-                if preferenceSet.channel_types == nil {
-                    preferenceSet.channel_types = Knock.ChannelTypePreferences()
-                }
-                
-                if preferenceSet.categories == nil {
-                    preferenceSet.categories = [:]
-                }
-                
-                if preferenceSet.workflows == nil {
-                    preferenceSet.workflows = [:]
-                }
-                
-                self.preferenceSet = preferenceSet
-                self.preferenceArray = preferenceSet.channel_types!.asArray()
-                self.categories = preferenceSet.categories!.toArrays()
-                self.workflows = preferenceSet.workflows!.toArrays()
+            case .success(let preferenceSet):
+                self.modelData.preferenceSet = preferenceSet
+                self.modelData.preferenceArray = preferenceSet.channel_types.asArray()
+                self.modelData.categories = preferenceSet.categories.toArrays()
+                self.modelData.workflows = preferenceSet.workflows.toArrays()
             case .failure(let error):
-                print("error getting prefs")
+                print("error getting prefs:")
+                print(error)
                 showingError = error
                 isShowingError = true
             }
@@ -216,16 +246,17 @@ struct PreferencesView: View {
     }
     
     private func saveCurrentPreferences() {
-        let channel_types = preferenceArray.toChannelTypePreferences()
-        preferenceSet.channel_types = channel_types
+        let channel_types = modelData.preferenceArray.toChannelTypePreferences()
+        modelData.preferenceSet.channel_types = channel_types
         
-        let categoriesDictionary = categories.toPreferenceDictionary()
-        preferenceSet.categories = categoriesDictionary
+        let categoriesDictionary = modelData.categories.toPreferenceDictionary()
+        modelData.preferenceSet.categories = categoriesDictionary
         
-        let workflowsDictionary = workflows.toPreferenceDictionary()
-        preferenceSet.workflows = workflowsDictionary
+        let workflowsDictionary = modelData.workflows.toPreferenceDictionary()
+        modelData.preferenceSet.workflows = workflowsDictionary
         
-        knockClient.setUserPreferences(preferenceId: "default", preferenceSet: preferenceSet) { result in
+        print("will save...")
+        knockClient.setUserPreferences(preferenceId: "default", preferenceSet: modelData.preferenceSet) { result in
             switch result {
             case .success(_):
                 print("prefs saved")
@@ -241,5 +272,6 @@ struct PreferencesView: View {
 struct PreferencesView_Previews: PreviewProvider {
     static var previews: some View {
         PreferencesView()
+            .environmentObject(PreferenceModelData())
     }
 }
