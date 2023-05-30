@@ -14,8 +14,8 @@
       "kind" : "remoteSourceControl",
       "location" : "git@github.com:knocklabs/knock-swift.git",
       "state" : {
-        "revision" : "b0fac0cefd8effd361878ab307a0e448930dc725",
-        "version" : "0.0.2"
+        "revision" : "856f7dfbb3ea98a2dde5375a7d315eccff0d9071",
+        "version" : "0.0.3"
       }
     },
     {
