@@ -203,25 +203,51 @@ struct PreferencesView: View {
     
     @ViewBuilder
     func channelTypesView(channelTypesArray: Binding<[Knock.ChannelTypePreferenceItem]>) -> some View {
-        ForEach(channelTypesArray, id: \.id) { $item in
-            let searchId = item.id
-            var prefIndex: Int {
-                channelTypesArray.wrappedValue.firstIndex(where: { $0.id == searchId })!
-            }
-            
-            switch item.value {
+        let leftItems = channelTypesArray.filter { item in
+            switch item.value.wrappedValue {
             case .left(_):
-                BooleanPreferenceView(item: $modelData.preferenceArray[prefIndex]) {
-                    saveCurrentPreferences()
-                }
+                return true
             case .right(_):
-                ConditionArrayView(item: $modelData.preferenceArray[prefIndex]) {
-                    saveCurrentPreferences()
-                }
+                return false
+            }
+        }
+        
+        let rightItems = channelTypesArray.filter { item in
+            switch item.value.wrappedValue {
+            case .left(_):
+                return false
+            case .right(_):
+                return true
+            }
+        }
+        
+        ForEach(leftItems) { $item in
+            BooleanPreferenceView(item: $item) {
+                saveCurrentPreferences()
             }
         }
         .onDelete { offsets in
-            channelTypesArray.wrappedValue.remove(atOffsets: offsets)
+            let itemToDelete = leftItems[offsets.first!]
+            
+            let searchId = itemToDelete.id
+            let prefIndex: Int = channelTypesArray.wrappedValue.firstIndex(where: { $0.id == searchId })!
+            
+            channelTypesArray.wrappedValue.remove(at: prefIndex)
+            saveCurrentPreferences()
+        }
+        
+        ForEach(rightItems) { $item in
+            ConditionArrayView(item: $item) {
+                saveCurrentPreferences()
+            }
+        }
+        .onDelete { offsets in
+            let itemToDelete = rightItems[offsets.first!]
+            
+            let searchId = itemToDelete.id
+            let prefIndex: Int = channelTypesArray.wrappedValue.firstIndex(where: { $0.id == searchId })!
+            
+            channelTypesArray.wrappedValue.remove(at: prefIndex)
             saveCurrentPreferences()
         }
         

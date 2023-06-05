@@ -21,8 +21,11 @@ struct ConditionArrayView: View {
             }
         )
         
-        ForEach(binding.conditions) { $condition in
-            Text("\(item.id.rawValue) condition: \(condition.variable) - \(condition.operation) - \(condition.argument)")
+        Section("\(item.id.rawValue) conditions") {
+            ForEach(binding.conditions) { $condition in
+                Text("\(condition.variable) - \(condition.operation) - \(condition.argument)")
+                    .padding(.leading)
+            }
         }
     }
 }
