@@ -28,3 +28,13 @@ Open the file `Core/Utils.swift` and fill the 4 fields with the above informatio
 Also, you should have 2 tenants with the following ids: `team-a` and `team-b`.
 
 After this, you can select a simulator as a run destination in case it's not already selected and you can run the app.
+
+**NOTE about a log message that you might see on the console:**
+
+You might see the following message displayed in the console:
+
+```
+invalid mode 'kCFRunLoopCommonModes' provided to CFRunLoopRunSpecific - break on _CFRunLoopError_RunCalledWithInvalidMode to debug. This message will only appear once per execution.
+```
+
+Apparently, this is a bug in UIKit related to the switches (UISwitch). There's a disscussion on [Apple's Developer Forums](https://developer.apple.com/forums/thread/132035) and the suggestion is just to treat it as [log noise](https://developer.apple.com/forums/thread/115461), so, you can safely ignore the message.
