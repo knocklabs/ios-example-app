@@ -7,6 +7,7 @@
 
 import SwiftUI
 import Knock
+import OSLog
 
 final class PreferenceModelData: ObservableObject {
     @Published var preferenceSet: Knock.PreferenceSet = Knock.PreferenceSet()
@@ -28,6 +29,8 @@ struct PreferencesView: View {
     
     @State private var newChannelView: NewChannelView? = nil
     @State private var newConditionView: NewConditionView? = nil
+    
+    private let logger = Logger(subsystem: "app.knock.ios-example", category: "PreferencesView")
     
     var body: some View {
         NavigationView {
@@ -93,8 +96,7 @@ struct PreferencesView: View {
         ForEach(rootItems.boolValues) { $boolItem in
             Toggle(boolItem.id, isOn: $boolItem.value)
                 .onChange(of: boolItem) { newItem in
-                    print("newItem: ")
-                    print(newItem)
+//                    logger.notice("\(newItem)")
                     saveCurrentPreferences()
                 }
         }
