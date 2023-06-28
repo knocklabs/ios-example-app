@@ -96,7 +96,7 @@ struct PreferencesView: View {
         ForEach(rootItems.boolValues) { $boolItem in
             Toggle(boolItem.id, isOn: $boolItem.value)
                 .onChange(of: boolItem) { newItem in
-//                    logger.notice("\(newItem)")
+                    logger.debug("changed id: \(newItem.id), value: \(newItem.value)")
                     saveCurrentPreferences()
                 }
         }
@@ -265,8 +265,7 @@ struct PreferencesView: View {
                 self.modelData.categories = preferenceSet.categories.toArrays()
                 self.modelData.workflows = preferenceSet.workflows.toArrays()
             case .failure(let error):
-                print("error getting prefs:")
-                print(error)
+                logger.error("error getting prefs: \(error.localizedDescription)")
                 showingError = error
                 isShowingError = true
             }
@@ -283,13 +282,13 @@ struct PreferencesView: View {
         let workflowsDictionary = modelData.workflows.toPreferenceDictionary()
         modelData.preferenceSet.workflows = workflowsDictionary
         
-        print("will save...")
+        logger.debug("will save...")
         knockClient.setUserPreferences(preferenceId: "default", preferenceSet: modelData.preferenceSet) { result in
             switch result {
             case .success(_):
-                print("prefs saved")
+                logger.debug("prefs saved")
             case .failure(let error):
-                print("error saving prefs")
+                logger.error("error saving prefs: \(error.localizedDescription)")
                 showingError = error
                 isShowingError = true
             }

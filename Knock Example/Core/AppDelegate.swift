@@ -8,9 +8,12 @@
 import Foundation
 import UIKit
 import Knock
+import OSLog
 
 class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDelegate {
     var pushToken: String? = nil
+    
+    private let logger = Logger(subsystem: "app.knock.ios-example", category: "AppDelegate")
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
         
@@ -18,11 +21,11 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
         
         UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge]) { granted, error in
             if let error = error {
-                print(error.localizedDescription)
+                self.logger.error("error requesting notifications authorization: \(error.localizedDescription)")
             }
             else {
                 DispatchQueue.main.sync {
-                    print("authorized to show alerts")
+                    self.logger.debug("authorized to show alerts")
                     
                     UIApplication.shared.registerForRemoteNotifications()
                     
@@ -36,7 +39,7 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
     }
     
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
-        print("\n\n\nSuccessfully registered for notifications!")
+        logger.debug("Successfully registered for notifications!")
         
         // 1. Convert device token to string
         let tokenParts = deviceToken.map { data -> String in
@@ -44,22 +47,22 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
         }
         let token = tokenParts.joined()
         // 2. Print device token to use for PNs payloads
-        print("Device Token: \(token)")
+        logger.debug("Device Token: \(token)")
         
         savePushToken(token: token)
     }
 
     func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
-        print("Failed to register for notifications: \(error.localizedDescription)")
+        logger.error("Failed to register for notifications: \(error.localizedDescription)")
     }
     
     func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
-        print("\n\n\ndidReceiveRemoteNotification")
+        logger.debug("didReceiveRemoteNotification")
 
         let content = userInfo
 
         if let notification_id = content["dismiss_notification_id"] as? String {
-            print("dismissed notification_id: \(notification_id)")
+            logger.debug("dismissed notification_id: \(notification_id)")
             removeNotification(notification_id: notification_id)
         }
 
@@ -68,18 +71,16 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
     
     // This method will be called when app received push notifications in foreground
     func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
-        print("center willPresent notification:")
-        print(notification)
+        logger.debug("userNotificationCenter willPresent notification: \(notification)")
         
         if let notification_id = notification.request.content.userInfo["knock_message_id"] as? String {
             // marking notification as seen, since it was shown when the app was on the foreground, presumably when the user was using the app
             Utils.myKnockClient().updateMessageStatus(messageId: notification_id, status: .seen) { result in
                 switch result {
                 case .success(_):
-                    print("message marked as seen")
+                    self.logger.debug("message marked as seen")
                 case .failure(let error):
-                    print("error marking message as seen")
-                    print(error)
+                    self.logger.error("error marking message as seen: \(error.localizedDescription)")
                 }
             }
         }
@@ -88,33 +89,30 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
     }
     
     func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
-        print("\n\n\ndidReceiveNotificationResponse:")
-        print(response)
+        logger.debug("didReceiveNotificationResponse: \(response)")
         
         let userInfo = response.notification.request.content.userInfo
         
         if let notification_id = userInfo["knock_message_id"] as? String {
             if response.actionIdentifier == UNNotificationDismissActionIdentifier {
-                print("dismissed notification_id: \(notification_id)")
+                logger.debug("dismissed notification_id: \(notification_id)")
                 Utils.myKnockClient().updateMessageStatus(messageId: notification_id, status: .read) { result in
                     switch result {
                     case .success(_):
-                        print("message marked as read")
+                        self.logger.debug("message marked as read")
                     case .failure(let error):
-                        print("error marking message as read")
-                        print(error)
+                        self.logger.error("error marking message as read: \(error.localizedDescription)")
                     }
                 }
             }
             else {
-                print("action on notification: \(notification_id)")
+                logger.debug("action on notification: \(notification_id)")
                 Utils.myKnockClient().updateMessageStatus(messageId: notification_id, status: .interacted) { result in
                     switch result {
                     case .success(_):
-                        print("message marked as interacted")
+                        self.logger.debug("message marked as interacted")
                     case .failure(let error):
-                        print("error marking message as interacted")
-                        print(error)
+                        self.logger.error("error marking message as interacted: \(error.localizedDescription)")
                     }
                 }
             }
@@ -130,7 +128,7 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
     }
     
     private func removeNotification(notification_id: String) {
-        print("AppDelegate removeNotification: \(notification_id)")
+        logger.debug("AppDelegate removeNotification: \(notification_id)")
         UNUserNotificationCenter.current().removeDeliveredNotifications(withIdentifiers: [notification_id])
     }
 }

@@ -7,10 +7,13 @@
 
 import SwiftUI
 import Knock
+import OSLog
 
 struct MessageComposeView: View {
     private var knockClient: Knock = Utils.myKnockClient()
-    @State private var feed: Knock.Feed
+    @State private var feed: Knock.Feed = Knock.Feed()
+    
+    private let logger = Logger(subsystem: "app.knock.ios-example", category: "MessageComposeView")
     
     @State private var showingSheet = false {
         didSet {
@@ -18,11 +21,11 @@ struct MessageComposeView: View {
                 if feed.meta.unseen_count > 0 {
                     let feedOptions = Knock.FeedManager.FeedClientOptions(status: .all, tenant: selectedTeam.id, has_tenant: true, archived: nil)
                     knockClient.feedManager?.makeBulkStatusUpdate(type: .seen, options: feedOptions) { result in
-                        print("marked all as seen")
+                        logger.debug("marked all as seen")
                         
                         switch result {
                         case .success(_):
-                            print("updating seen")
+                            logger.debug("updating seen")
                             feed.meta.unseen_count = 0
                             feed.entries = feed.entries.map { item in
                                 var newItem = item
@@ -30,7 +33,7 @@ struct MessageComposeView: View {
                                 return newItem
                             }
                         case .failure(let error):
-                            print(error.localizedDescription)
+                            logger.error("error in makeBulkStatusUpdate: \(error.localizedDescription)")
                         }
                     }
                 }
@@ -46,12 +49,10 @@ struct MessageComposeView: View {
     }
     
     let teams = [Team(id: "team-a", name: "Team A"), Team(id: "team-b", name: "Team B")]
-    @State private var selectedTeam: Team
+    @State private var selectedTeam: Team = Team(id: "team-a", name: "Team A")
     
     init() {
         self.selectedTeam = teams.first!
-        self.feed = Knock.Feed()
-        
         maybeRegisterPushToken()
     }
     
@@ -90,7 +91,7 @@ struct MessageComposeView: View {
                         case .success(let feed):
                             self.feed = feed
                         case .failure(let error):
-                            print(error.localizedDescription)
+                            logger.error("error in getUserFeedContent: \(error.localizedDescription)")
                         }
                     }
                 }
@@ -145,12 +146,12 @@ struct MessageComposeView: View {
                 case .success(let feed):
                     self.feed = feed
                 case .failure(let error):
-                    print(error.localizedDescription)
+                    logger.error("error in getUserFeedContent: \(error.localizedDescription)")
                 }
             }
             
             knockClient.feedManager?.connectToFeed()
-            print("connected to feed")
+            logger.debug("connected to feed")
             
             knockClient.feedManager?.on(eventName: "new-message") { _ in
                 let options = Knock.FeedManager.FeedClientOptions(before: self.feed.page_info.before,tenant: selectedTeam.id, has_tenant: true)
@@ -165,14 +166,14 @@ struct MessageComposeView: View {
                         
                         self.feed.page_info.before = feed.entries.first?.__cursor
                     case .failure(let error):
-                        print(error.localizedDescription)
+                        logger.error("error in getUserFeedContent: \(error.localizedDescription)")
                     }
                 }
             }
         }
         .onDisappear{
             knockClient.feedManager?.disconnectFromFeed()
-            print("disconnected from feed")
+            logger.debug("disconnected from feed")
         }
     }
     
@@ -204,12 +205,12 @@ struct MessageComposeView: View {
                         case .success(let feed):
                             self.feed.meta = feed.meta
                         case .failure(let error):
-                            print(error.localizedDescription)
+                            logger.error("error in getUserFeedContent: \(error.localizedDescription)")
                         }
                     }
                 }
             case .failure(let error):
-                print(error.localizedDescription)
+                logger.error("error in batchUpdateStatuses: \(error.localizedDescription)")
             }
         }
     }
@@ -224,9 +225,9 @@ struct MessageComposeView: View {
             knockClient.registerTokenForAPNS(channelId: channelId, token: token) { result in
                 switch result {
                 case .success(_):
-                    print("success registering the push token with Knock")
+                    logger.debug("success registering the push token with Knock")
                 case .failure(let error):
-                    print(error.localizedDescription)
+                    logger.error("error in registerTokenForAPNS: \(error.localizedDescription)")
                 }
             }
         }
