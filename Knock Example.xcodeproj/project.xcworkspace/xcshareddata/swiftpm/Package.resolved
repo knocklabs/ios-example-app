@@ -1,30 +1,12 @@
 {
   "pins" : [
     {
-      "identity" : "anycodable",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/Flight-School/AnyCodable",
-      "state" : {
-        "revision" : "862808b2070cd908cb04f9aafe7de83d35f81b05",
-        "version" : "0.6.7"
-      }
-    },
-    {
       "identity" : "knock-swift",
       "kind" : "remoteSourceControl",
       "location" : "git@github.com:knocklabs/knock-swift.git",
       "state" : {
-        "revision" : "b06911f98977a0c5e9b2654b66e2e46ef0b30fa1",
-        "version" : "0.0.4"
-      }
-    },
-    {
-      "identity" : "swiftphoenixclient",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/davidstump/SwiftPhoenixClient.git",
-      "state" : {
-        "revision" : "37a4671a1cbb95f4facd9fc921b4015b8cfaaaa2",
-        "version" : "5.3.0"
+        "revision" : "264d410ab1ca9ad71c21389feedf515858578028",
+        "version" : "0.1.0"
       }
     }
   ],

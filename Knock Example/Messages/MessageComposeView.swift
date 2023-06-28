@@ -190,7 +190,7 @@ struct MessageComposeView: View {
     }
     
     func archiveItem(_ item: Knock.FeedItem) {
-        knockClient.bulkUpdateMessageStatus(messageId: item.id, status: .archived) { result in
+        knockClient.batchUpdateStatuses(messageIds: [item.id], status: .archived) { result in
             switch result {
             case .success(let messages):
                 if let message = messages.first {

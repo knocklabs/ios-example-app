@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		F153F03D2A4C893A0029A7B4 /* Knock in Frameworks */ = {isa = PBXBuildFile; productRef = F153F03C2A4C893A0029A7B4 /* Knock */; };
 		F1664EE32A14404D00BA9760 /* Knock_ExampleApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1664EE22A14404D00BA9760 /* Knock_ExampleApp.swift */; };
 		F1664EE52A14404D00BA9760 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1664EE42A14404D00BA9760 /* ContentView.swift */; };
 		F1664EE72A14404E00BA9760 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F1664EE62A14404E00BA9760 /* Assets.xcassets */; };
@@ -18,7 +19,6 @@
 		F1664EFF2A147E8700BA9760 /* MessageComposeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1664EFE2A147E8700BA9760 /* MessageComposeView.swift */; };
 		F1664F012A14814300BA9760 /* NewWorkflowPreferenceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1664F002A14814300BA9760 /* NewWorkflowPreferenceView.swift */; };
 		F1664F032A14892A00BA9760 /* SheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1664F022A14892A00BA9760 /* SheetView.swift */; };
-		F1664F082A148DB800BA9760 /* Knock in Frameworks */ = {isa = PBXBuildFile; productRef = F1664F072A148DB800BA9760 /* Knock */; };
 		F1A8A3B72A258DC10091C8BD /* NewConditionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1A8A3B62A258DC10091C8BD /* NewConditionView.swift */; };
 		F1A8A3B92A258DD40091C8BD /* NewChannelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1A8A3B82A258DD40091C8BD /* NewChannelView.swift */; };
 		F1A8A3BB2A258DE30091C8BD /* ConditionArrayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1A8A3BA2A258DE30091C8BD /* ConditionArrayView.swift */; };
@@ -51,7 +51,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F1664F082A148DB800BA9760 /* Knock in Frameworks */,
+				F153F03D2A4C893A0029A7B4 /* Knock in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -147,7 +147,7 @@
 			);
 			name = "Knock Example";
 			packageProductDependencies = (
-				F1664F072A148DB800BA9760 /* Knock */,
+				F153F03C2A4C893A0029A7B4 /* Knock */,
 			);
 			productName = "Knock Example";
 			productReference = F1664EDF2A14404D00BA9760 /* Knock Example.app */;
@@ -178,7 +178,7 @@
 			);
 			mainGroup = F1664ED62A14404D00BA9760;
 			packageReferences = (
-				F1664F062A148DB800BA9760 /* XCRemoteSwiftPackageReference "knock-swift" */,
+				F153F03B2A4C893A0029A7B4 /* XCRemoteSwiftPackageReference "knock-swift" */,
 			);
 			productRefGroup = F1664EE02A14404D00BA9760 /* Products */;
 			projectDirPath = "";
@@ -425,20 +425,20 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		F1664F062A148DB800BA9760 /* XCRemoteSwiftPackageReference "knock-swift" */ = {
+		F153F03B2A4C893A0029A7B4 /* XCRemoteSwiftPackageReference "knock-swift" */ = {
 			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "git@github.com:knocklabs/knock-swift.git";
+			repositoryURL = "https://github.com/knocklabs/knock-swift.git";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 0.0.1;
+				minimumVersion = 0.1.0;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		F1664F072A148DB800BA9760 /* Knock */ = {
+		F153F03C2A4C893A0029A7B4 /* Knock */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = F1664F062A148DB800BA9760 /* XCRemoteSwiftPackageReference "knock-swift" */;
+			package = F153F03B2A4C893A0029A7B4 /* XCRemoteSwiftPackageReference "knock-swift" */;
 			productName = Knock;
 		};
 /* End XCSwiftPackageProductDependency section */
