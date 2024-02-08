@@ -6,13 +6,12 @@
 //
 
 import Foundation
-import SwiftUI
 import Knock
 import OSLog
 
-class InAppFeedViewModel: ObservableObject {
-    @Published var feed: Knock.Feed = Knock.Feed()
-    @Published var selectedTeam: Team = Utils.teams.first!
+@Observable class InAppFeedViewModel {
+    var feed: Knock.Feed = Knock.Feed()
+    var selectedTeam: Team = Utils.teams.first!
     
     let logger = Logger(subsystem: "app.knock.ios-example", category: "InAppFeedViewModel")
     
@@ -87,12 +86,13 @@ class InAppFeedViewModel: ObservableObject {
                 logger.debug("updating seen")
                 await MainActor.run {
                     feed.meta.unseen_count = 0
+                    
+                    feed.entries = feed.entries.map { item in
+                        var newItem = item
+                        newItem.seen_at = Date()
+                        return newItem
+                    }
                 }
-//                            feedViewModel.feed.entries = feedViewModel.feed.entries.map { item in
-//                                var newItem = item
-//                                newItem.seen_at = Date()
-//                                return newItem
-//                            }
             } catch {
                 logger.error("error in makeBulkStatusUpdate: \(error.localizedDescription)")
             }

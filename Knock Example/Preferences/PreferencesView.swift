@@ -17,7 +17,7 @@ final class PreferenceModelData: ObservableObject {
 }
 
 struct PreferencesView: View {    
-//    @EnvironmentObject var modelData: PreferenceModelData
+    @Environment(AuthenticationViewModel.self) var authViewModel
     @StateObject private var modelData = PreferenceModelData()
     
     @State private var showingNewSheetForCategories = false
@@ -74,7 +74,8 @@ struct PreferencesView: View {
                 Button("Sign Out", role: .destructive) {
                     Knock.shared.signOut() { result in
                         switch result {
-                        case .success(): print("success")
+                        case .success():
+                            authViewModel.isSignedIn = false
                         case .failure(_): print("failed")
                         }
                     }
@@ -103,7 +104,7 @@ struct PreferencesView: View {
     func workflowPreferenceTreeView(rootItems: Binding<Knock.WorkflowPreferenceItems>) -> some View {
         ForEach(rootItems.boolValues) { $boolItem in
             Toggle(boolItem.id, isOn: $boolItem.value)
-                .onChange(of: boolItem) { newItem in
+                .onChange(of: boolItem) { _, newItem  in
                     logger.debug("changed id: \(newItem.id), value: \(newItem.value)")
                     saveCurrentPreferences()
                 }
@@ -321,6 +322,6 @@ struct PreferencesView: View {
 struct PreferencesView_Previews: PreviewProvider {
     static var previews: some View {
         PreferencesView()
-            .environmentObject(PreferenceModelData())
+            .environment(AuthenticationViewModel())
     }
 }

@@ -10,7 +10,7 @@ import Knock
 
 struct FeedSheetView: View {
     @Environment(\.dismiss) var dismiss
-    @EnvironmentObject var feedViewModel: InAppFeedViewModel
+    @Environment(InAppFeedViewModel.self) var feedViewModel
         
     struct TextCustom: UIViewRepresentable {
         let html: String
@@ -66,8 +66,10 @@ struct FeedSheetView: View {
                 }
             }
         }
-        .task {
-            await feedViewModel.updateSeenStatus()
+        .onDisappear {
+            Task {
+                await feedViewModel.updateSeenStatus()
+            }
         }
     }
     
