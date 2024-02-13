@@ -8,7 +8,7 @@
 			<key>CFBundleTypeRole</key>
 			<string>Viewer</string>
 			<key>CFBundleURLName</key>
-			<string>knocklabs.knock.ios-example</string>
+			<string>app.knock.ios-example</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
 				<string>knockexample</string>
