@@ -28,14 +28,6 @@ struct MainView: View {
                         } label: {
                             getBellIcon(unseenCount: feedViewModel.feed.meta.unseen_count)
                         }
-                        
-                        Button {
-                            Task {
-                                await Knock.shared.environment.setDeviceToken("1ef66e3581ded6e258e442bac5fef7331526637a340e630618b3e6d1e28a480d")
-                            }
-                        } label: {
-                            Text("Set")
-                        }
                     }
             }
             .tabItem {

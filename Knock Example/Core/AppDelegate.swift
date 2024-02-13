@@ -8,20 +8,9 @@
 import Foundation
 import UIKit
 import Knock
-import OSLog
 
 class AppDelegate: KnockAppDelegate {
-    
-    private let logger = Logger(subsystem: "app.knock.ios-example", category: "AppDelegate")
-    
-//    override init() {
-//        Task {
-//            try? await Knock.shared.setup(publishableKey: Utils.publishableKey, pushChannelId: Utils.apnsChannelId, options: .init(hostname: Utils.hostname, loggingOptions: .verbose))
-//            let _ = try? await Knock.shared.requestNotificationPermission()
-//        }
-//        super.init()
-//    }
-    
+        
     override func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
         Task {
             try? await Knock.shared.setup(publishableKey: Utils.publishableKey, pushChannelId: Utils.apnsChannelId, options: .init(hostname: Utils.hostname, loggingOptions: .verbose))
@@ -31,7 +20,7 @@ class AppDelegate: KnockAppDelegate {
     
     override func pushNotificationTapped(userInfo: [AnyHashable : Any]) {
         super.pushNotificationTapped(userInfo: userInfo)
-        if let deeplink = userInfo["deep_link"] as? String, let url = URL(string: deeplink) {
+        if let deeplink = userInfo["link"] as? String, let url = URL(string: deeplink) {
             UIApplication.shared.open(url)
         }
     }
@@ -41,7 +30,6 @@ class AppDelegate: KnockAppDelegate {
         return [options]
     }
     
-    // TODO: test to make sure this works
     override func pushNotificationDeliveredSilently(userInfo: [AnyHashable : Any], completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
         completionHandler(.noData)
     }

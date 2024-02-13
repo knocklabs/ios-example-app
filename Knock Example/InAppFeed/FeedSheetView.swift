@@ -96,9 +96,7 @@ struct FeedSheetView: View {
     }
     
     @ViewBuilder
-    private func renderNotificationContent(markdown: String) -> some View {
-//        Text(markdown)
-        
+    private func renderNotificationContent(markdown: String) -> some View {        
         let modifiedFontString = "<span style=\"font-family: -apple-system, sans-serif; font-size: 20\">" + markdown + "</span>"
         TextCustom(html: modifiedFontString)
             .frame(minWidth: 0, maxWidth: .infinity, minHeight: 130, maxHeight: .infinity)

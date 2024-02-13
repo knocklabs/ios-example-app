@@ -1,12 +1,12 @@
 {
   "pins" : [
     {
-      "identity" : "knock-swift",
+      "identity" : "swiftphoenixclient",
       "kind" : "remoteSourceControl",
-      "location" : "git@github.com:knocklabs/knock-swift.git",
+      "location" : "https://github.com/davidstump/SwiftPhoenixClient.git",
       "state" : {
-        "revision" : "264d410ab1ca9ad71c21389feedf515858578028",
-        "version" : "0.1.0"
+        "revision" : "588bf6baab5d049752748e19a4bff32421ea40ec",
+        "version" : "5.3.2"
       }
     }
   ],
