@@ -8,13 +8,10 @@
 import SwiftUI
 import Knock
 
-struct SheetView: View {
+struct FeedSheetView: View {
     @Environment(\.dismiss) var dismiss
-    
-    @Binding var feed: Knock.Feed
-    
-    var archiveItem: ((Knock.FeedItem) -> Void)?
-    
+    @Environment(InAppFeedViewModel.self) var feedViewModel
+        
     struct TextCustom: UIViewRepresentable {
         let html: String
         
@@ -36,33 +33,42 @@ struct SheetView: View {
     }
 
     var body: some View {
-        Button {
-            dismiss()
-        } label: {
-            Text("Close")
-            Image(systemName: "xmark.circle")
-        }
-        .font(.title2)
-        .padding()
-        
-        Spacer()
-        
-        if (feed.entries.isEmpty) {
-            VStack {
-                Text("No notifications yet")
-                    .font(.title2)
-                    .bold()
-                Text("We'll let you know when we've got something new for you.")
-            }
-            .padding()
-            
-            Spacer()
-        }
-        else {
-            List {
-                ForEach(feed.entries, id: \.id) {
-                    notificationRow(item: $0)
+        VStack{
+            HStack {
+                Spacer()
+                
+                Button {
+                    dismiss()
+                } label: {
+                    Text("Close")
+                    Image(systemName: "xmark.circle")
                 }
+                .font(.title2)
+                .padding()
+            }
+            
+            if (feedViewModel.feed.entries.isEmpty) {
+                VStack {
+                    Text("No notifications yet")
+                        .font(.title2)
+                        .bold()
+                    Text("We'll let you know when we've got something new for you.")
+                }
+                .padding()
+                
+                Spacer()
+            }
+            else {
+                List {
+                    ForEach(feedViewModel.feed.entries, id: \.id) {
+                        notificationRow(item: $0)
+                    }
+                }
+            }
+        }
+        .onDisappear {
+            Task {
+                await feedViewModel.updateSeenStatus()
             }
         }
     }
@@ -73,7 +79,7 @@ struct SheetView: View {
             block.name == "body"
         }?.rendered ?? ""
         
-        if item.read_at == nil {
+        if item.seen_at == nil {
             HStack {
                 Image(systemName: "circle.fill")
                     .foregroundColor(.blue)
@@ -90,9 +96,7 @@ struct SheetView: View {
     }
     
     @ViewBuilder
-    private func renderNotificationContent(markdown: String) -> some View {
-//        Text(markdown)
-        
+    private func renderNotificationContent(markdown: String) -> some View {        
         let modifiedFontString = "<span style=\"font-family: -apple-system, sans-serif; font-size: 20\">" + markdown + "</span>"
         TextCustom(html: modifiedFontString)
             .frame(minWidth: 0, maxWidth: .infinity, minHeight: 130, maxHeight: .infinity)
@@ -101,7 +105,9 @@ struct SheetView: View {
     @ViewBuilder
     private func archiveItemButton(item: Knock.FeedItem) -> some View {
         Button {
-            archiveItem?(item)
+            Task {
+                await feedViewModel.archiveItem(item)
+            }
         } label: {
             Image(systemName: "x.circle")
         }

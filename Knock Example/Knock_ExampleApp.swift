@@ -10,10 +10,10 @@ import SwiftUI
 @main
 struct Knock_ExampleApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
-    
+
     var body: some Scene {
         WindowGroup {
-            MainMenuView()
+            ContentView()
         }
     }
 }

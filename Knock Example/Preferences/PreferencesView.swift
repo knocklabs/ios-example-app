@@ -16,10 +16,8 @@ final class PreferenceModelData: ObservableObject {
     @Published var workflows = Knock.WorkflowPreferenceItems()
 }
 
-struct PreferencesView: View {
-    private var knockClient: Knock = Utils.myKnockClient()
-    
-//    @EnvironmentObject var modelData: PreferenceModelData
+struct PreferencesView: View {    
+    @Environment(AuthenticationViewModel.self) var authViewModel
     @StateObject private var modelData = PreferenceModelData()
     
     @State private var showingNewSheetForCategories = false
@@ -33,11 +31,9 @@ struct PreferencesView: View {
     private let logger = Logger(subsystem: "app.knock.ios-example", category: "PreferencesView")
     
     var body: some View {
-        NavigationView {
-            preferencesView()
-        }
-        .onAppear {
-            getCurrentPreferences()
+        preferencesView()
+        .task {
+            await getCurrentPreferencesAsync()
         }
     }
     
@@ -73,9 +69,22 @@ struct PreferencesView: View {
                     NewWorkflowPreferenceView(items: $modelData.workflows)
                 }
             }
+            
+            Section() {
+                Button("Sign Out", role: .destructive) {
+                    Knock.shared.signOut() { result in
+                        switch result {
+                        case .success():
+                            authViewModel.isSignedIn = false
+                        case .failure(_): print("failed")
+                        }
+                    }
+                }
+                .foregroundColor(.red)
+            }
         }
         .refreshable {
-            getCurrentPreferences()
+            await getCurrentPreferencesAsync()
         }
         .navigationTitle("Preferences")
         .navigationBarItems(trailing: EditButton())
@@ -95,7 +104,7 @@ struct PreferencesView: View {
     func workflowPreferenceTreeView(rootItems: Binding<Knock.WorkflowPreferenceItems>) -> some View {
         ForEach(rootItems.boolValues) { $boolItem in
             Toggle(boolItem.id, isOn: $boolItem.value)
-                .onChange(of: boolItem) { newItem in
+                .onChange(of: boolItem) { _, newItem  in
                     logger.debug("changed id: \(newItem.id), value: \(newItem.value)")
                     saveCurrentPreferences()
                 }
@@ -257,7 +266,7 @@ struct PreferencesView: View {
     }
     
     private func getCurrentPreferences() {
-        knockClient.getUserPreferences(preferenceId: "default") { result in
+        Knock.shared.getUserPreferences(preferenceId: "default") { result in
             switch result {
             case .success(let preferenceSet):
                 self.modelData.preferenceSet = preferenceSet
@@ -272,6 +281,20 @@ struct PreferencesView: View {
         }
     }
     
+    private func getCurrentPreferencesAsync() async {
+        do {
+            let preferenceSet = try await Knock.shared.getUserPreferences(preferenceId: "default")
+            self.modelData.preferenceSet = preferenceSet
+            self.modelData.preferenceArray = preferenceSet.channel_types.asArray()
+            self.modelData.categories = preferenceSet.categories.toArrays()
+            self.modelData.workflows = preferenceSet.workflows.toArrays()
+        } catch {
+            logger.error("error getting prefs: \(error.localizedDescription)")
+            showingError = error
+            isShowingError = true
+        }
+    }
+    
     private func saveCurrentPreferences() {
         let channel_types = modelData.preferenceArray.toChannelTypePreferences()
         modelData.preferenceSet.channel_types = channel_types
@@ -283,7 +306,7 @@ struct PreferencesView: View {
         modelData.preferenceSet.workflows = workflowsDictionary
         
         logger.debug("will save...")
-        knockClient.setUserPreferences(preferenceId: "default", preferenceSet: modelData.preferenceSet) { result in
+        Knock.shared.setUserPreferences(preferenceId: "default", preferenceSet: modelData.preferenceSet) { result in
             switch result {
             case .success(_):
                 logger.debug("prefs saved")
@@ -299,6 +322,6 @@ struct PreferencesView: View {
 struct PreferencesView_Previews: PreviewProvider {
     static var previews: some View {
         PreferencesView()
-            .environmentObject(PreferenceModelData())
+            .environment(AuthenticationViewModel())
     }
 }
