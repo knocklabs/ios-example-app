@@ -11,9 +11,10 @@
 		3C1A802A2B699C8500AE0FFE /* Knock in Frameworks */ = {isa = PBXBuildFile; productRef = 3C1A80292B699C8500AE0FFE /* Knock */; };
 		3C1A80302B69A46C00AE0FFE /* Knock in Frameworks */ = {isa = PBXBuildFile; productRef = 3C1A802F2B69A46C00AE0FFE /* Knock */; };
 		3C3CF6782B6C1E1800DC2813 /* InAppFeedViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C3CF6772B6C1E1800DC2813 /* InAppFeedViewModel.swift */; };
+		3C768D7A2BB1F64700CBEC43 /* Knock in Frameworks */ = {isa = PBXBuildFile; productRef = 3C768D792BB1F64700CBEC43 /* Knock */; };
+		3C91C5832BBDA8A3003194F0 /* Knock in Frameworks */ = {isa = PBXBuildFile; productRef = 3C91C5822BBDA8A3003194F0 /* Knock */; };
 		3C9571D22B71827B000DEE43 /* SignInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C9571D12B71827B000DEE43 /* SignInView.swift */; };
 		3C9571D52B7182B6000DEE43 /* AuthenticationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C9571D42B7182B6000DEE43 /* AuthenticationViewModel.swift */; };
-		3CA813F02BAB807300FB4F3C /* Knock in Frameworks */ = {isa = PBXBuildFile; productRef = 3CA813EF2BAB807300FB4F3C /* Knock */; };
 		3CB7170F2B72F97000837CF5 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CB7170E2B72F97000837CF5 /* ContentView.swift */; };
 		F1664EE32A14404D00BA9760 /* Knock_ExampleApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1664EE22A14404D00BA9760 /* Knock_ExampleApp.swift */; };
 		F1664EE72A14404E00BA9760 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F1664EE62A14404E00BA9760 /* Assets.xcassets */; };
@@ -62,8 +63,9 @@
 			files = (
 				3C1A80302B69A46C00AE0FFE /* Knock in Frameworks */,
 				3C1A80272B695DF500AE0FFE /* Knock in Frameworks */,
+				3C91C5832BBDA8A3003194F0 /* Knock in Frameworks */,
 				3C1A802A2B699C8500AE0FFE /* Knock in Frameworks */,
-				3CA813F02BAB807300FB4F3C /* Knock in Frameworks */,
+				3C768D7A2BB1F64700CBEC43 /* Knock in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -205,7 +207,8 @@
 				3C1A80262B695DF500AE0FFE /* Knock */,
 				3C1A80292B699C8500AE0FFE /* Knock */,
 				3C1A802F2B69A46C00AE0FFE /* Knock */,
-				3CA813EF2BAB807300FB4F3C /* Knock */,
+				3C768D792BB1F64700CBEC43 /* Knock */,
+				3C91C5822BBDA8A3003194F0 /* Knock */,
 			);
 			productName = "Knock Example";
 			productReference = F1664EDF2A14404D00BA9760 /* Knock Example.app */;
@@ -236,7 +239,7 @@
 			);
 			mainGroup = F1664ED62A14404D00BA9760;
 			packageReferences = (
-				3CA813EE2BAB807300FB4F3C /* XCRemoteSwiftPackageReference "knock-swift" */,
+				3C91C5812BBDA8A3003194F0 /* XCRemoteSwiftPackageReference "knock-swift" */,
 			);
 			productRefGroup = F1664EE02A14404D00BA9760 /* Products */;
 			projectDirPath = "";
@@ -486,12 +489,12 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		3CA813EE2BAB807300FB4F3C /* XCRemoteSwiftPackageReference "knock-swift" */ = {
+		3C91C5812BBDA8A3003194F0 /* XCRemoteSwiftPackageReference "knock-swift" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/knocklabs/knock-swift";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 1.0.0;
+				minimumVersion = 1.1.0;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
@@ -509,9 +512,13 @@
 			isa = XCSwiftPackageProductDependency;
 			productName = Knock;
 		};
-		3CA813EF2BAB807300FB4F3C /* Knock */ = {
+		3C768D792BB1F64700CBEC43 /* Knock */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 3CA813EE2BAB807300FB4F3C /* XCRemoteSwiftPackageReference "knock-swift" */;
+			productName = Knock;
+		};
+		3C91C5822BBDA8A3003194F0 /* Knock */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3C91C5812BBDA8A3003194F0 /* XCRemoteSwiftPackageReference "knock-swift" */;
 			productName = Knock;
 		};
 /* End XCSwiftPackageProductDependency section */
