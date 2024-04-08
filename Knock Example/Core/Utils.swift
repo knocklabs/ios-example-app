@@ -13,6 +13,6 @@ class Utils {
     static let userId = ""
     static let inAppChannelId = ""
     static let apnsChannelId = ""
-    static let hostname = "https://api.knock-dev.app" // or "https://api.knock.app" for prod environments
+    static let hostname = "https://api.knock.app"
     static let teams = [Team(id: "team-a", name: "Team A"), Team(id: "team-b", name: "Team B")]
 }
