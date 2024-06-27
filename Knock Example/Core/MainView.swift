@@ -8,26 +8,26 @@
 import SwiftUI
 import Knock
 
-
 struct MainView: View {
     @State private var selectedTab = 0
-    @State private var feedViewModel = InAppFeedViewModel()    
+    @State var feedViewModel = Knock.InAppFeedViewModel()
     @State private var showingSheet = false
+    @State private var currentTenant = DemoTenant.select
 
     var body: some View {
         TabView(selection: $selectedTab) {
             NavigationStack {
-                MessageComposeView(selectedTeam: $feedViewModel.selectedTeam)
+                MessageComposeView(selectedTenant: $currentTenant)
                     .sheet(isPresented: $showingSheet) {
-                        FeedSheetView()
-                            .environment(feedViewModel)
+                        Knock.InAppFeedView()
+                            .padding(.top, 16)
+                            .environmentObject(feedViewModel)
                     }
                     .toolbar {
-                        Button {
+                        Knock.InAppFeedNotificationIconButton() {
                             showingSheet.toggle()
-                        } label: {
-                            getBellIcon(unseenCount: feedViewModel.feed.meta.unseen_count)
                         }
+                        .environmentObject(feedViewModel)
                     }
             }
             .tabItem {
@@ -47,43 +47,33 @@ struct MainView: View {
         .task {
             if Knock.shared.feedManager == nil {
                 Knock.shared.feedManager = try? await Knock.FeedManager(feedId: Utils.inAppChannelId)
-                await feedViewModel.initializeFeed()
+                await feedViewModel.connectFeedAndObserveNewMessages()
             }
         }
-        .onChange(of: feedViewModel.selectedTeam, initial: false) { _, _  in
-            let options = Knock.FeedClientOptions(tenant: feedViewModel.selectedTeam.id, has_tenant: true)
+        .onReceive(feedViewModel.didTapFeedItemButtonPublisher) { actionString in
+            print("Button with action \(actionString) was tapped.")
+        }
+        .onReceive(feedViewModel.didTapFeedItemRowPublisher) { item in
+            print("Row item was tapped")
+        }
+        .onChange(of: currentTenant, initial: false, {
             Task {
-                if let feed = try await Knock.shared.feedManager?.getUserFeedContent(options: options) {
-                    self.feedViewModel.feed = feed
-                }
+                feedViewModel.feedClientOptions.tenant = currentTenant.tenantId
+                await feedViewModel.refreshFeed()
             }
-        }
+        })
         .onOpenURL(perform: { url in
             if url.host() == "preferences" {
                 selectedTab = 1
             }
         })
     }
-        
-    
-    @ViewBuilder
-    private func getBellIcon(unseenCount: Int) -> some View {
-        if unseenCount == 0 {
-            Image(systemName: "bell")
-                .tint(.gray)
-                .font(.title2)
-        }
-        else {
-            Image(systemName: "bell.badge")
-                .tint(.gray)
-                .symbolRenderingMode(.multicolor)
-                .font(.title2)
-        }
-    }
 }
 
 struct MainMenuView_Previews: PreviewProvider {
     static var previews: some View {
-        MainView()
+        let viewModel = Knock.InAppFeedViewModel()
+        viewModel.feed.meta.unreadCount = 60
+        return MainView(feedViewModel: viewModel)
     }
 }

@@ -7,15 +7,19 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3C0DA43E2BF7EA4F005061C8 /* Knock in Frameworks */ = {isa = PBXBuildFile; productRef = 3C0DA43D2BF7EA4F005061C8 /* Knock */; };
 		3C1A80272B695DF500AE0FFE /* Knock in Frameworks */ = {isa = PBXBuildFile; productRef = 3C1A80262B695DF500AE0FFE /* Knock */; };
 		3C1A802A2B699C8500AE0FFE /* Knock in Frameworks */ = {isa = PBXBuildFile; productRef = 3C1A80292B699C8500AE0FFE /* Knock */; };
 		3C1A80302B69A46C00AE0FFE /* Knock in Frameworks */ = {isa = PBXBuildFile; productRef = 3C1A802F2B69A46C00AE0FFE /* Knock */; };
-		3C3CF6782B6C1E1800DC2813 /* InAppFeedViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C3CF6772B6C1E1800DC2813 /* InAppFeedViewModel.swift */; };
+		3C1F19FB2BF7F1790087F4DB /* Knock in Frameworks */ = {isa = PBXBuildFile; productRef = 3C1F19FA2BF7F1790087F4DB /* Knock */; };
+		3C1F19FF2BF7F7A40087F4DB /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3C1F19FE2BF7F7A40087F4DB /* GoogleService-Info.plist */; };
+		3C480DF12BCF1819005B50B7 /* Knock in Frameworks */ = {isa = PBXBuildFile; productRef = 3C480DF02BCF1819005B50B7 /* Knock */; };
 		3C768D7A2BB1F64700CBEC43 /* Knock in Frameworks */ = {isa = PBXBuildFile; productRef = 3C768D792BB1F64700CBEC43 /* Knock */; };
-		3C91C5832BBDA8A3003194F0 /* Knock in Frameworks */ = {isa = PBXBuildFile; productRef = 3C91C5822BBDA8A3003194F0 /* Knock */; };
+		3C8E454D2C07E87500D2CD28 /* Knock in Frameworks */ = {isa = PBXBuildFile; productRef = 3C8E454C2C07E87500D2CD28 /* Knock */; };
 		3C9571D22B71827B000DEE43 /* SignInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C9571D12B71827B000DEE43 /* SignInView.swift */; };
 		3C9571D52B7182B6000DEE43 /* AuthenticationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C9571D42B7182B6000DEE43 /* AuthenticationViewModel.swift */; };
 		3CB7170F2B72F97000837CF5 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CB7170E2B72F97000837CF5 /* ContentView.swift */; };
+		3CC46A8B2C2DC50B0086034B /* Knock in Frameworks */ = {isa = PBXBuildFile; productRef = 3CC46A8A2C2DC50B0086034B /* Knock */; };
 		F1664EE32A14404D00BA9760 /* Knock_ExampleApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1664EE22A14404D00BA9760 /* Knock_ExampleApp.swift */; };
 		F1664EE72A14404E00BA9760 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F1664EE62A14404E00BA9760 /* Assets.xcassets */; };
 		F1664EEA2A14404E00BA9760 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F1664EE92A14404E00BA9760 /* Preview Assets.xcassets */; };
@@ -25,7 +29,6 @@
 		F1664EFD2A147E3A00BA9760 /* PreferencesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1664EFC2A147E3A00BA9760 /* PreferencesView.swift */; };
 		F1664EFF2A147E8700BA9760 /* MessageComposeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1664EFE2A147E8700BA9760 /* MessageComposeView.swift */; };
 		F1664F012A14814300BA9760 /* NewWorkflowPreferenceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1664F002A14814300BA9760 /* NewWorkflowPreferenceView.swift */; };
-		F1664F032A14892A00BA9760 /* FeedSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1664F022A14892A00BA9760 /* FeedSheetView.swift */; };
 		F1A8A3B72A258DC10091C8BD /* NewConditionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1A8A3B62A258DC10091C8BD /* NewConditionView.swift */; };
 		F1A8A3B92A258DD40091C8BD /* NewChannelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1A8A3B82A258DD40091C8BD /* NewChannelView.swift */; };
 		F1A8A3BB2A258DE30091C8BD /* ConditionArrayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1A8A3BA2A258DE30091C8BD /* ConditionArrayView.swift */; };
@@ -33,7 +36,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		3C3CF6772B6C1E1800DC2813 /* InAppFeedViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InAppFeedViewModel.swift; sourceTree = "<group>"; };
+		3C1F19FE2BF7F7A40087F4DB /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		3C9571D12B71827B000DEE43 /* SignInView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInView.swift; sourceTree = "<group>"; };
 		3C9571D42B7182B6000DEE43 /* AuthenticationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationViewModel.swift; sourceTree = "<group>"; };
 		3CB7170E2B72F97000837CF5 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -47,7 +50,6 @@
 		F1664EFC2A147E3A00BA9760 /* PreferencesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferencesView.swift; sourceTree = "<group>"; };
 		F1664EFE2A147E8700BA9760 /* MessageComposeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageComposeView.swift; sourceTree = "<group>"; };
 		F1664F002A14814300BA9760 /* NewWorkflowPreferenceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewWorkflowPreferenceView.swift; sourceTree = "<group>"; };
-		F1664F022A14892A00BA9760 /* FeedSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedSheetView.swift; sourceTree = "<group>"; };
 		F1664F042A148AB900BA9760 /* Knock-Example-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "Knock-Example-Info.plist"; sourceTree = SOURCE_ROOT; };
 		F1664F052A148AED00BA9760 /* Knock Example.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Knock Example.entitlements"; sourceTree = "<group>"; };
 		F1A8A3B62A258DC10091C8BD /* NewConditionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewConditionView.swift; sourceTree = "<group>"; };
@@ -61,9 +63,13 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3CC46A8B2C2DC50B0086034B /* Knock in Frameworks */,
 				3C1A80302B69A46C00AE0FFE /* Knock in Frameworks */,
+				3C1F19FB2BF7F1790087F4DB /* Knock in Frameworks */,
 				3C1A80272B695DF500AE0FFE /* Knock in Frameworks */,
-				3C91C5832BBDA8A3003194F0 /* Knock in Frameworks */,
+				3C8E454D2C07E87500D2CD28 /* Knock in Frameworks */,
+				3C0DA43E2BF7EA4F005061C8 /* Knock in Frameworks */,
+				3C480DF12BCF1819005B50B7 /* Knock in Frameworks */,
 				3C1A802A2B699C8500AE0FFE /* Knock in Frameworks */,
 				3C768D7A2BB1F64700CBEC43 /* Knock in Frameworks */,
 			);
@@ -72,15 +78,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		3C3CF6792B6C2D3100DC2813 /* InAppFeed */ = {
-			isa = PBXGroup;
-			children = (
-				F1664F022A14892A00BA9760 /* FeedSheetView.swift */,
-				3C3CF6772B6C1E1800DC2813 /* InAppFeedViewModel.swift */,
-			);
-			path = InAppFeed;
-			sourceTree = "<group>";
-		};
 		3C9571D32B71829E000DEE43 /* SignIn */ = {
 			isa = PBXGroup;
 			children = (
@@ -88,27 +85,6 @@
 				3C9571D42B7182B6000DEE43 /* AuthenticationViewModel.swift */,
 			);
 			path = SignIn;
-			sourceTree = "<group>";
-		};
-		3C99E1052B9AA734000F794C /* Models */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Models;
-			sourceTree = "<group>";
-		};
-		3C99E1062B9AA73B000F794C /* Modules */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Modules;
-			sourceTree = "<group>";
-		};
-		3C99E1072B9AA745000F794C /* Services */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Services;
 			sourceTree = "<group>";
 		};
 		F1664ED62A14404D00BA9760 = {
@@ -130,13 +106,10 @@
 		F1664EE12A14404D00BA9760 /* Knock Example */ = {
 			isa = PBXGroup;
 			children = (
-				3C99E1072B9AA745000F794C /* Services */,
-				3C99E1062B9AA73B000F794C /* Modules */,
-				3C99E1052B9AA734000F794C /* Models */,
+				3C1F19FE2BF7F7A40087F4DB /* GoogleService-Info.plist */,
 				F1664F052A148AED00BA9760 /* Knock Example.entitlements */,
 				F1664F042A148AB900BA9760 /* Knock-Example-Info.plist */,
 				F1664EFB2A147E2700BA9760 /* Preferences */,
-				3C3CF6792B6C2D3100DC2813 /* InAppFeed */,
 				3C9571D32B71829E000DEE43 /* SignIn */,
 				F1664EFA2A147E1F00BA9760 /* Messages */,
 				F1664EF32A14697700BA9760 /* Core */,
@@ -208,7 +181,11 @@
 				3C1A80292B699C8500AE0FFE /* Knock */,
 				3C1A802F2B69A46C00AE0FFE /* Knock */,
 				3C768D792BB1F64700CBEC43 /* Knock */,
-				3C91C5822BBDA8A3003194F0 /* Knock */,
+				3C480DF02BCF1819005B50B7 /* Knock */,
+				3C0DA43D2BF7EA4F005061C8 /* Knock */,
+				3C1F19FA2BF7F1790087F4DB /* Knock */,
+				3C8E454C2C07E87500D2CD28 /* Knock */,
+				3CC46A8A2C2DC50B0086034B /* Knock */,
 			);
 			productName = "Knock Example";
 			productReference = F1664EDF2A14404D00BA9760 /* Knock Example.app */;
@@ -239,7 +216,7 @@
 			);
 			mainGroup = F1664ED62A14404D00BA9760;
 			packageReferences = (
-				3C91C5812BBDA8A3003194F0 /* XCRemoteSwiftPackageReference "knock-swift" */,
+				3CC46A892C2DC50B0086034B /* XCRemoteSwiftPackageReference "knock-swift" */,
 			);
 			productRefGroup = F1664EE02A14404D00BA9760 /* Products */;
 			projectDirPath = "";
@@ -257,6 +234,7 @@
 			files = (
 				F1664EEA2A14404E00BA9760 /* Preview Assets.xcassets in Resources */,
 				F1664EE72A14404E00BA9760 /* Assets.xcassets in Resources */,
+				3C1F19FF2BF7F7A40087F4DB /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -268,7 +246,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				F1664EF92A147DF000BA9760 /* MainView.swift in Sources */,
-				F1664F032A14892A00BA9760 /* FeedSheetView.swift in Sources */,
 				3CB7170F2B72F97000837CF5 /* ContentView.swift in Sources */,
 				F1664EFD2A147E3A00BA9760 /* PreferencesView.swift in Sources */,
 				F1A8A3B72A258DC10091C8BD /* NewConditionView.swift in Sources */,
@@ -280,7 +257,6 @@
 				F1A8A3BB2A258DE30091C8BD /* ConditionArrayView.swift in Sources */,
 				F1A8A3B92A258DD40091C8BD /* NewChannelView.swift in Sources */,
 				F1664EF72A146AA300BA9760 /* Utils.swift in Sources */,
-				3C3CF6782B6C1E1800DC2813 /* InAppFeedViewModel.swift in Sources */,
 				F1664F012A14814300BA9760 /* NewWorkflowPreferenceView.swift in Sources */,
 				3C9571D52B7182B6000DEE43 /* AuthenticationViewModel.swift in Sources */,
 			);
@@ -489,17 +465,21 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		3C91C5812BBDA8A3003194F0 /* XCRemoteSwiftPackageReference "knock-swift" */ = {
+		3CC46A892C2DC50B0086034B /* XCRemoteSwiftPackageReference "knock-swift" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/knocklabs/knock-swift";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 1.1.0;
+				minimumVersion = 1.2.2;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		3C0DA43D2BF7EA4F005061C8 /* Knock */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Knock;
+		};
 		3C1A80262B695DF500AE0FFE /* Knock */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = Knock;
@@ -512,13 +492,25 @@
 			isa = XCSwiftPackageProductDependency;
 			productName = Knock;
 		};
+		3C1F19FA2BF7F1790087F4DB /* Knock */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Knock;
+		};
+		3C480DF02BCF1819005B50B7 /* Knock */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Knock;
+		};
 		3C768D792BB1F64700CBEC43 /* Knock */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = Knock;
 		};
-		3C91C5822BBDA8A3003194F0 /* Knock */ = {
+		3C8E454C2C07E87500D2CD28 /* Knock */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 3C91C5812BBDA8A3003194F0 /* XCRemoteSwiftPackageReference "knock-swift" */;
+			productName = Knock;
+		};
+		3CC46A8A2C2DC50B0086034B /* Knock */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3CC46A892C2DC50B0086034B /* XCRemoteSwiftPackageReference "knock-swift" */;
 			productName = Knock;
 		};
 /* End XCSwiftPackageProductDependency section */

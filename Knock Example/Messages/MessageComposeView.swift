@@ -12,7 +12,7 @@ import OSLog
 struct MessageComposeView: View {
     @State var message = ""
     @State var showToast = false
-    @Binding var selectedTeam: Team
+    @Binding var selectedTenant: DemoTenant
     
     var body: some View {
         VStack {
@@ -30,9 +30,9 @@ struct MessageComposeView: View {
                 
                 Spacer()
                 
-                Picker("Select a team", selection: $selectedTeam) {
-                    ForEach(Utils.teams, id: \.self) {
-                        Text($0.name)
+                Picker("Select a tenant", selection: $selectedTenant) {
+                    ForEach(DemoTenant.allCases, id: \.self) {
+                        Text($0.rawValue)
                     }
                 }
                 .pickerStyle(.menu)
@@ -48,8 +48,7 @@ struct MessageComposeView: View {
             HStack {
                 Button("Send notification") {
 //                    DemoBackend.sendNotifyDemoMessage(message: message, tenant: selectedTeam.id, showToast: showToast, userId: knockClient.userId)
-                    
-                    // clear the message on send
+//                    clear the message on send
                     message = ""
                 }
                 .bold()
@@ -71,6 +70,24 @@ struct MessageComposeView: View {
 
 struct MessageComposeView_Previews: PreviewProvider {
     static var previews: some View {
-        MessageComposeView(selectedTeam: .constant(Utils.teams.first!))
+        @State var tenant = DemoTenant.select
+        return MessageComposeView(selectedTenant: $tenant)
+    }
+}
+
+public enum DemoTenant: String, CaseIterable {
+    case select = "Select a Tenant"
+    case none = "None"
+    case tenantA = "Tenant A"
+    case tenantB = "Tenant B"
+    case tenantC = "Tenant C"
+    
+    var tenantId: String? {
+        switch self {
+        case .none, .select: nil
+        case .tenantA: "tenant-a"
+        case .tenantB: "tenant-b"
+        case .tenantC: "tenant-c"
+        }
     }
 }
