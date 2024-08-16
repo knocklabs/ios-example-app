@@ -8,6 +8,11 @@
 import Foundation
 import Knock
 
+struct Team {
+    var id = "";
+    var name = "";
+}
+
 class Utils {    
     static let publishableKey = ""
     static let userId = ""
