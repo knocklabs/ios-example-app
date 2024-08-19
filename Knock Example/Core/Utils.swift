@@ -9,8 +9,8 @@ import Foundation
 import Knock
 
 struct Team {
-    var id = "";
-    var name = "";
+    let id: String
+    let name: String
 }
 
 class Utils {    
